@@ -49,4 +49,4 @@ import { } from 'leafer-x-effect-text'
 
 [license-src]: https://img.shields.io/github/license/Xdy1579883916/leafer-x-effect-text.svg?style=flat&colorA=080f12&colorB=1fa669
 
-[license-href]: https://github.com/Xdy1579883916/leafer-x-effect-text/blob/main/LICENSE
+[license-href]: https://github.com/Xdy1579883916/leafer-x-effect-text/blob/master/LICENSE
