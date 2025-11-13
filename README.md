@@ -23,11 +23,11 @@ import { } from 'leafer-x-effect-text'
 
 ### 特点
 
-1. 绘制对
+1.
 
 ### 截图示例
 
-* 吸附线基础
+*
 
 ## License
 

@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import {onMounted} from 'vue'
 import '@leafer-in/editor'
-import '@leafer-in/resize'
-import '@leafer-in/view'
-import '@leafer-in/viewport'
 import '@lx/effect-text-editor'
-import {App, UICreator} from "leafer-ui";
+import {App, Text, UICreator} from "leafer-ui";
 import {EffectText} from "@lx/effect-text";
-import { Text } from "leafer-ui"
 
 let leaferApp: App
 
+console.log(UICreator.list);
+
 function initLeafer() {
+
   leaferApp = new App({
     view: 'leafer-app',
     width: 1200,
@@ -19,23 +18,27 @@ function initLeafer() {
     editor: {},
   })
 
-  const text = new EffectText({
-    text: '233445',
-    fontSize: 80,
+  const t1 = new EffectText({
+    text: 'DIY EffectText',
+    fontSize: 40,
     x: 200,
     y: 200,
     editable: true,
   })
 
-  console.log(text)
-  leaferApp.tree.add(text)
-  leaferApp.tree.add(new Text({
-    text: 'xxxxxx',
-    fontSize: 80,
+  leaferApp.tree.add(t1)
+  const t2 = new Text({
+    tag: 'EffectText',
+    text: 'Leafer Text',
+    fontSize: 40,
+    x: 200,
+    y: 100,
     editable: true,
-  }))
+  })
+  leaferApp.tree.add(t2)
+  console.log(t1, t2)
 
-  console.log(UICreator.list);
+  console.log(t1.toJSON(), t2.toJSON())
 
   ;(window as any).app = leaferApp
 }

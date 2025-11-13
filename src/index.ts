@@ -1,1 +1,1 @@
-export * from 'packages/effect-text'
+export * from '@lx/effect-text'

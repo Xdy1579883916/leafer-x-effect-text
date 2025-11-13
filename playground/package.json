@@ -13,10 +13,6 @@
   },
   "devDependencies": {
     "@leafer-in/editor": "^1.10.1",
-    "@leafer-in/resize": "^1.10.1",
-    "@leafer-in/text-editor": "^1.10.1",
-    "@leafer-in/view": "^1.10.1",
-    "@leafer-in/viewport": "^1.10.1",
     "@lx/effect-text": "workspace:*",
     "@lx/effect-text-editor": "workspace:*",
     "@tsconfig/node22": "^22.0.2",
