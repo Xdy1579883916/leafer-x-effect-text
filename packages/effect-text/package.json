@@ -1,5 +1,6 @@
 {
   "name": "@lx/effect-text",
+  "type": "module",
   "version": "0.0.0",
   "description": "",
   "exports": {

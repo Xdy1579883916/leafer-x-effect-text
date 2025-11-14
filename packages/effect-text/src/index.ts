@@ -37,10 +37,11 @@ import {
   registerUI,
   surfaceType,
   TextConvert,
-  TextData,
   UI,
   UnitConvert,
 } from '@leafer-ui/core'
+import { TextData } from './lib/display-module/data/TextData'
+import './lib/partner'
 
 const { copyAndSpread, includes, spread, setList } = BoundsHelper
 const { stintSet } = DataHelper
@@ -215,7 +216,6 @@ export class EffectText<TConstructorData = ITextInputData> extends UI<TConstruct
       setList(data.__textBoxBounds = {} as IBoundsData, [b, contentBounds])
       layout.renderChanged = true
     }
-
     else {
       data.__textBoxBounds = b
     }
@@ -271,3 +271,17 @@ export class EffectText<TConstructorData = ITextInputData> extends UI<TConstruct
     super.destroy()
   }
 }
+
+EffectText.prototype.__drawHitPath = function (canvas: ILeaferCanvas): void {
+  const { __lineHeight, fontSize, __baseLine, __letterSpacing, __textDrawData: data } = this.__
+
+  canvas.beginPath()
+
+  if (__letterSpacing < 0) {
+    this.__drawPathByBox(canvas)
+  }
+  else {
+    data.rows.forEach(row => canvas.rect(row.x, row.y - __baseLine, row.width, __lineHeight < fontSize ? fontSize : __lineHeight))
+  }
+}
+EffectText.addAttr('editInner', 'TextEditor', dataType)

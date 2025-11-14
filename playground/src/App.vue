@@ -2,11 +2,11 @@
 import {onMounted} from 'vue'
 import '@leafer-in/editor'
 import '@lx/effect-text-editor'
-import {App, Text, UICreator} from "leafer-ui";
+import {App, UICreator} from "leafer-ui";
 import {EffectText} from "@lx/effect-text";
 
 let leaferApp: App
-
+// Debug.showBounds = 'hit'
 console.log(UICreator.list);
 
 function initLeafer() {
@@ -23,22 +23,37 @@ function initLeafer() {
     fontSize: 40,
     x: 200,
     y: 200,
+    fill: {
+      "type": "linear",
+      "color": "#000000",
+      "visible": true,
+      "from": {
+        "x": 0,
+        "y": 0.5,
+        "type": "percent"
+      },
+      "to": {
+        "x": 1,
+        "y": 0.5,
+        "type": "percent"
+      },
+      "stops": [
+        {
+          "offset": 0,
+          "color": "rgb(248, 54, 0)"
+        },
+        {
+          "offset": 1,
+          "color": "rgb(250, 204, 34)"
+        }
+      ]
+    },
+    writingMode: 'x-reverse',
     editable: true,
   })
 
   leaferApp.tree.add(t1)
-  const t2 = new Text({
-    tag: 'EffectText',
-    text: 'Leafer Text',
-    fontSize: 40,
-    x: 200,
-    y: 100,
-    editable: true,
-  })
-  leaferApp.tree.add(t2)
-  console.log(t1, t2)
-
-  console.log(t1.toJSON(), t2.toJSON())
+  console.log(t1, t1.toJSON())
 
   ;(window as any).app = leaferApp
 }
