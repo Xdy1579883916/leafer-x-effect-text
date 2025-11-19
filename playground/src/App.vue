@@ -29,84 +29,38 @@ function initLeafer() {
   })
 
   const et = new EffectText({
-    text: '特效文字',
-    fontSize: 36,
-    x: 400,
-    y: 220,
-    editable: true,
-    textAlign: 'center',
-    verticalAlign: 'middle',
-    fill: "#f40",
+    text: '多层特效',
+    fontSize: 72,
+    fill: '#ff4400',
     textEffects: [
+      // 底层阴影
       {
         visible: true,
-        fill: {
-          "type": "linear",
-          "color": "#000000",
-          "visible": true,
-          "from": {
-            "x": 0,
-            "y": 0.5,
-            "type": "percent"
-          },
-          "to": {
-            "x": 1,
-            "y": 0.5,
-            "type": "percent"
-          },
-          "stops": [
-            {
-              "offset": 0,
-              "color": "rgb(248, 54, 0)"
-            },
-            {
-              "offset": 1,
-              "color": "rgb(250, 204, 34)"
-            }
-          ],
-          "offset": {
-            "visible": true,
-            "x": 0,
-            "y": 10
-          }
-        },
-        stroke: {
-          "type": "solid",
-          "color": "rgba(255, 255, 255, 1)",
-          "visible": true,
-          "style": {
-            "strokeJoin": "round",
-            "strokeWidth": 3
-          }
-        },
-        offset: {
-          visible: true,
-          x: -20,
-          y: 50
-        }
+        offset: {x: 5, y: 5},
+        fill: 'rgba(0, 0, 0, 0.5)'
       },
+      // 外描边
       {
         visible: true,
-        fill: {
-          "type": "solid",
-          "color": "#000",
-          "visible": true,
-        },
+        offset: {x: 0, y: 0},
         stroke: {
-          "type": "solid",
-          "color": "rgba(255, 255, 255, 1)",
-          "visible": true,
-          "style": {
-            "strokeJoin": "round",
-          }
-        },
-        offset: {
-          visible: true,
-          x: 50,
-          y: -100
+          type: 'solid',
+          color: '#ffffff',
+          style: {strokeWidth: 8}
         }
       },
+      // 内描边
+      {
+        visible: true,
+        offset: {x: 0, y: 0},
+        stroke: {
+          type: 'solid',
+          color: '#000000',
+          style: {strokeWidth: 4}
+        }
+      }
     ],
+    editable: true,
   })
 
   leaferApp.tree.add(et)

@@ -6,11 +6,10 @@ import type {
   IRenderOptions,
   IStrokePaint,
   IText,
+  ITextInputData,
   ITextStyleAttrData,
   ITextStyleComputedData,
-  ITextStyleInputData,
   IUI,
-  IUIBaseInputData,
   IUIData,
   IUIInputData,
 } from '@leafer-ui/interface'
@@ -53,7 +52,7 @@ interface IEffectText extends IEffectTextAttrData, ITextStyleAttrData, IUI {
   __effectTextGroup?: IText[]
 }
 
-interface IEffectTextInputData extends IEffectTextAttrData, ITextStyleInputData, IUIBaseInputData {
+interface IEffectTextInputData extends IEffectTextAttrData, ITextInputData {
   textEffects?: ITextEffect[]
 }
 
