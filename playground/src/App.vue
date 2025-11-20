@@ -196,25 +196,41 @@ function getRandom(min: number, max: number) {
 }
 function handleChangeOffest() {
   const text = leaferApp.tree.children[0] as EffectText
-  const x = getRandom(0, 100)
-  const y = getRandom(0, 100)
+  const max = 200
+  const x = getRandom(-max, max)
+  const y = getRandom(-max, max)
   text.textEffects = text.textEffects.map(v => {
     v.offset = {visible: true, x, y}
     return v
+  })
+}
+function handleAddShadow() {
+  const text = leaferApp.tree.children[0] as EffectText
+  text.set({
+    shadow: [
+      {
+        "x": 10,
+        "y": -10,
+        "blur": 63,
+        "color": "rgba(255, 255, 255, 1)",
+        "spread": 41
+      }
+    ]
   })
 }
 </script>
 
 <template>
   <NFlex justify="start">
-    <div id="leafer-app" style="background: antiquewhite;"></div>
+    <div id="leafer-app" style="background: rgb(105, 41, 225);"></div>
     <NFlex vertical>
-      <h3>操作</h3>
+      <h3>window.app 可获取leafer 实例, 自行操作</h3>
       <NFlex justify="start">
         <NButton @click="handleDebug"> Debug </NButton>
         <NButton @click="handleExport">导出图片</NButton>
         <NButton @click="handleExport2">导出JSON（见console）</NButton>
         <NButton @click="handleChangeOffest">随机特效偏移</NButton>
+        <NButton @click="handleAddShadow">设置文字阴影</NButton>
       </NFlex>
     </NFlex>
   </NFlex>

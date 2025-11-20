@@ -16,6 +16,7 @@ import type {
 import {
   boundsType,
   dataProcessor,
+  FourNumberHelper,
   registerUI,
   Text,
   TextData,
@@ -76,6 +77,9 @@ export const IGNORE_SYNC_KEYS = [
   'id',
   'states',
   'data',
+
+  'shadow',
+  'innerShadow',
 ]
 
 // ==================== Helper Functions ====================
@@ -244,7 +248,6 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
 
   constructor(data?: TConstructorData) {
     super(data)
-    this.__updateBoxBounds()
   }
 
   protected _forEachEffect(callback: (text: Text) => void): void {
@@ -275,6 +278,13 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
     this.__._updateEffectPositions()
   }
 
+  override __updateBoxBounds() {
+    super.__updateBoxBounds()
+    this._forEachEffect((text) => {
+      text.__updateBoxBounds()
+    })
+  }
+
   override __draw(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void {
     if (this.textEditing && !options.exporting)
       return
@@ -292,14 +302,12 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
   }
 
   override __updateRenderSpread(): IFourNumber {
-    if (!this.textEffects?.length) {
-      return [0, 0, 0, 0]
-    }
+    const rootSpread = super.__updateRenderSpread()
+    let [top, right, bottom, left] = FourNumberHelper.get(rootSpread)
 
-    let top = 0
-    let right = 0
-    let bottom = 0
-    let left = 0
+    if (!this.textEffects?.length) {
+      return [top, right, bottom, left]
+    }
 
     this.textEffects.forEach((effect) => {
       if (!effect.visible)
@@ -307,7 +315,7 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
 
       const { x: offsetX, y: offsetY } = getOffsetValue(effect.offset)
       const strokeWidth = getStrokeWidth(effect.stroke)
-      const strokeSpread = strokeWidth * 2
+      const strokeSpread = strokeWidth / 2
 
       const horizontalSpread = calculateDirectionSpread(offsetX, strokeSpread)
       const verticalSpread = calculateDirectionSpread(offsetY, strokeSpread)
