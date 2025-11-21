@@ -40,12 +40,19 @@ export interface IEffectTextAttrData {
   textEffects?: ITextEffect[]
 }
 
+export type IEffectRatio = Partial<{
+  offsetXRatio: number
+  offsetYRatio: number
+  strokeWidthRatio: number
+  dashPatternRatios: number[]
+}>
+
 export interface IEffectTextData extends ITextStyleComputedData, IUIData {
   _textEffects?: ITextEffect[]
   __effectTextGroup?: IText[]
-  __baseSize?: { width: number, height: number, fontSize: number }
-  __originalOffsets?: Array<{ x: number, y: number }>
-  _updateEffectPositions: () => void
+  __effectRatios?: IEffectRatio[]
+  __ratiosInitialized?: boolean
+  updateEffectPositions: () => void
 }
 
 export interface IEffectText extends IEffectTextAttrData, ITextStyleAttrData, IUI {
@@ -103,6 +110,14 @@ function getStrokeWidth(stroke?: IEnable<IStrokePaint>): number {
   return (stroke as any).style?.strokeWidth || 0
 }
 
+function getDashPattern(stroke?: IEnable<IStrokePaint>): number[] | undefined {
+  if (!stroke || !isVisible(stroke)) {
+    return undefined
+  }
+  const dashPattern = (stroke as any).style?.dashPattern
+  return dashPattern && Array.isArray(dashPattern) && dashPattern.length > 0 ? dashPattern : undefined
+}
+
 function calculateDirectionSpread(offset: number, strokeSpread: number): { positive: number, negative: number } {
   if (offset < 0) {
     return { positive: 0, negative: Math.abs(offset) + strokeSpread }
@@ -146,15 +161,30 @@ export function normalizeTextEffects(
 
   const scale = targetFontSize / sourceFontSize
 
-  return effects.map((effect) => {
-    const clonedEffect = JSON.parse(JSON.stringify(effect))
-
-    if (clonedEffect.offset && isVisible(clonedEffect.offset)) {
-      clonedEffect.offset.x = (clonedEffect.offset.x || 0) * scale
-      clonedEffect.offset.y = (clonedEffect.offset.y || 0) * scale
+  const clonedEffects: ITextEffect[] = JSON.parse(JSON.stringify(effects))
+  return clonedEffects.map((effect) => {
+    // 根据参数决定是否缩放 offset
+    if (effect.offset && isVisible(effect.offset)) {
+      effect.offset = {
+        x: (effect.offset.x || 0) * scale,
+        y: (effect.offset.y || 0) * scale,
+      }
     }
 
-    return clonedEffect
+    // 缩放 stroke 相关属性
+    if (effect.stroke?.style) {
+      // 缩放 strokeWidth
+      if (effect.stroke.style.strokeWidth) {
+        (effect.stroke.style.strokeWidth as any) *= scale
+      }
+
+      // 缩放 dashPattern
+      if (effect.stroke.style.dashPattern && Array.isArray(effect.stroke.style.dashPattern)) {
+        effect.stroke.style.dashPattern = effect.stroke.style.dashPattern.map((value: number) => value * scale)
+      }
+    }
+
+    return effect
   })
 }
 
@@ -163,38 +193,40 @@ export function normalizeTextEffects(
 export class EffectTextData extends TextData implements IEffectTextData {
   _textEffects?: ITextEffect[]
   __effectTextGroup: IText[]
-  __baseSize?: { width: number, height: number, fontSize: number }
-  __originalOffsets?: Array<{ x: number, y: number }>
+  __effectRatios?: IEffectRatio[]
+  __ratiosInitialized?: boolean
 
   setTextEffects(value: ITextEffect[]) {
     const mainText = this.__leaf as IEffectText
 
     if (value?.length) {
-      this._recordBaseMetrics(mainText)
-      this._recordOriginalOffsets(value)
-      this._updateOrCreateEffectTexts(mainText, value)
+      this.recordAbsoluteValues(value)
+      this.updateOrCreateEffectTexts(mainText, value)
     }
     else {
-      this._clearAllEffects(mainText)
+      this.clearAllEffects(mainText)
     }
 
     this._textEffects = value
   }
 
-  private _recordBaseMetrics(mainText: IEffectText) {
-    const boxBounds = mainText.__layout?.boxBounds
-    this.__baseSize = {
-      width: mainText.width || boxBounds?.width || 0,
-      height: mainText.height || boxBounds?.height || 0,
-      fontSize: mainText.fontSize || DEFAULT_FONT_SIZE,
-    }
+  recordAbsoluteValues(effects: ITextEffect[]) {
+    // 先记录绝对值，存储在 ratio 字段中（此时还不是比例）
+    this.__effectRatios = effects.map((effect) => {
+      const offset = getOffsetValue(effect.offset)
+      const strokeWidth = getStrokeWidth(effect.stroke)
+      const dashPattern = getDashPattern(effect.stroke)
+      return {
+        offsetXRatio: offset.x,
+        offsetYRatio: offset.y,
+        strokeWidthRatio: strokeWidth,
+        dashPatternRatios: dashPattern ? [...dashPattern] : undefined,
+      }
+    })
+    this.__ratiosInitialized = false
   }
 
-  private _recordOriginalOffsets(effects: ITextEffect[]) {
-    this.__originalOffsets = effects.map(v => getOffsetValue(v.offset))
-  }
-
-  private _updateOrCreateEffectTexts(mainText: IEffectText, effects: ITextEffect[]) {
+  updateOrCreateEffectTexts(mainText: IEffectText, effects: ITextEffect[]) {
     const existingGroup = this.__effectTextGroup || []
 
     const newGroup: IText[] = effects.map((effect, index) => {
@@ -225,39 +257,67 @@ export class EffectTextData extends TextData implements IEffectTextData {
     mainText.__effectTextGroup = this.__effectTextGroup = newGroup
   }
 
-  private _clearAllEffects(mainText: IEffectText) {
+  clearAllEffects(mainText: IEffectText) {
     if (this.__effectTextGroup?.length) {
       this.__effectTextGroup.forEach(t => t.visible = 0)
       this.__effectTextGroup = mainText.__effectTextGroup = []
     }
   }
 
-  _updateEffectPositions() {
+  updateEffectPositions() {
     const mainText = this.__leaf as IEffectText
-    const { __effectTextGroup: group, __baseSize, __originalOffsets, _textEffects } = this
+    const { __effectTextGroup: group, __effectRatios, __ratiosInitialized, _textEffects } = this
 
-    if (!group || !__baseSize || !__originalOffsets)
+    if (!group || !__effectRatios)
       return
 
     const currentFontSize = mainText.fontSize || DEFAULT_FONT_SIZE
-    const scale = currentFontSize / __baseSize.fontSize
 
-    __originalOffsets.forEach((originalOffset, index) => {
+    // 第一次调用时，计算比例
+    if (!__ratiosInitialized) {
+      __effectRatios.forEach((ratio) => {
+        ratio.offsetXRatio = ratio.offsetXRatio / currentFontSize
+        ratio.offsetYRatio = ratio.offsetYRatio / currentFontSize
+        ratio.strokeWidthRatio = ratio.strokeWidthRatio / currentFontSize
+        if (ratio.dashPatternRatios) {
+          ratio.dashPatternRatios = ratio.dashPatternRatios.map(value => value / currentFontSize)
+        }
+      })
+      this.__ratiosInitialized = true
+    }
+
+    __effectRatios.forEach((ratio, index) => {
       const text = group[index]
       const effect = _textEffects[index]
-      if (!text || !effect)
+      if (!text)
         return
 
-      const newX = originalOffset.x * scale
-      const newY = originalOffset.y * scale
+      // 根据当前 fontSize 和比例计算实际值
+      const actualX = ratio.offsetXRatio * currentFontSize
+      const actualY = ratio.offsetYRatio * currentFontSize
+      const actualStrokeWidth = ratio.strokeWidthRatio * currentFontSize
 
-      text.x = newX
-      text.y = newY
+      text.x = actualX
+      text.y = actualY
       effect.offset = {
-        x: newX,
-        y: newY,
-        visible: true,
+        ...(effect.offset || {}),
+        x: actualX,
+        y: actualY,
       }
+
+      // 更新描边宽度和 dashPattern
+      if (text.stroke && (text.stroke as any).style) {
+        (text.stroke as any).style.strokeWidth = actualStrokeWidth
+        effect.stroke.style.strokeWidth = actualStrokeWidth
+
+        // 更新 dashPattern
+        if (ratio.dashPatternRatios) {
+          const actualDashPattern = ratio.dashPatternRatios.map(value => value * currentFontSize)
+          ;(text.stroke as any).style.dashPattern = actualDashPattern
+          effect.stroke.style.dashPattern = actualDashPattern
+        }
+      }
+
       text.__updateLocalMatrix()
       text.__updateWorldMatrix()
     })
@@ -283,7 +343,6 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
 
   constructor(data?: TConstructorData) {
     super(data)
-    this.__updateChange()
   }
 
   protected _forEachEffect(callback: (text: Text) => void): void {
@@ -312,7 +371,7 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
       this._updateEffectText(text)
     })
 
-    this.__._updateEffectPositions()
+    this.__.updateEffectPositions()
   }
 
   override __updateBoxBounds() {

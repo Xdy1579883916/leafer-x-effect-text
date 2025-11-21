@@ -28,150 +28,348 @@ function initLeafer() {
     },
   })
 
-  const et = new EffectText({
-    "textEffects": [
-      {
-        "fill": {
-          "type": "solid",
-          "color": "#000",
-          "visible": false
-        },
-        "stroke": {
-          "type": "linear",
-          "color": "rgba(255, 255, 255, 1)",
-          "visible": true,
-          "style": {
-            "strokeWidth": 10,
-            "strokeJoin": "round"
+  leaferApp.tree.add([
+    new EffectText({
+      "textEffects": [
+        {
+          "fill": {
+            "type": "solid",
+            "color": "#000",
+            "visible": false
           },
-          "from": {
-            "x": 0,
-            "y": 0.5,
-            "type": "percent"
-          },
-          "to": {
-            "x": 1,
-            "y": 0.5,
-            "type": "percent"
-          },
-          "stops": [
-            {
-              "offset": 0,
-              "color": "rgb(252, 92, 125)"
+          "stroke": {
+            "type": "linear",
+            "color": "rgba(255, 255, 255, 1)",
+            "visible": true,
+            "style": {
+              "strokeWidth": 10,
+              "strokeJoin": "round"
             },
-            {
-              "offset": 1,
-              "color": "rgb(255, 251, 213)"
-            }
-          ]
-        },
-        "visible": true,
-        "offset": {
-          "x": 0,
-          "y": 0,
-          "visible": true
-        }
-      },
-      {
-        "fill": {
-          "type": "solid",
-          "color": "rgba(209, 209, 209, 1)",
-          "visible": false
-        },
-        "stroke": {
-          "type": "solid",
-          "color": "#000",
-          "visible": true,
-          "style": {
-            "strokeWidth": 5,
-            "strokeJoin": "round",
-            "dashPattern": [
-              10,
-              1
+            "from": {
+              "x": 0,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "to": {
+              "x": 1,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "stops": [
+              {
+                "offset": 0,
+                "color": "rgb(252, 92, 125)"
+              },
+              {
+                "offset": 1,
+                "color": "rgb(255, 251, 213)"
+              }
             ]
+          },
+          "visible": true,
+          "offset": {
+            "x": 0,
+            "y": 0,
+            "visible": true
           }
         },
-        "visible": true,
-        "offset": {
-          "x": 0,
-          "y": 0,
+        {
+          "fill": {
+            "type": "solid",
+            "color": "rgba(209, 209, 209, 1)",
+            "visible": false
+          },
+          "stroke": {
+            "type": "solid",
+            "color": "#000",
+            "visible": true,
+            "style": {
+              "strokeWidth": 5,
+              "strokeJoin": "round",
+              "dashPattern": [
+                10,
+                1
+              ]
+            }
+          },
+          "visible": true,
+          "offset": {
+            "x": 0,
+            "y": 0,
+            "visible": true
+          }
+        },
+        {
+          "fill": {
+            "type": "linear",
+            "color": "rgba(223, 22, 22, 1)",
+            "visible": true,
+            "from": {
+              "x": 0,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "to": {
+              "x": 1,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "stops": [
+              {
+                "offset": 0,
+                "color": "rgb(30, 150, 0)"
+              },
+              {
+                "offset": 0.51,
+                "color": "rgb(255, 242, 0)"
+              },
+              {
+                "offset": 1,
+                "color": "rgb(243, 41, 53)"
+              }
+            ]
+          },
+          "stroke": {
+            "type": "solid",
+            "color": "rgba(255, 255, 255, 1)",
+            "visible": true,
+            "style": {
+              "strokeWidth": 2,
+              "strokeJoin": "round"
+            }
+          },
+          "offset": {
+            "x": 0,
+            "y": 0,
+            "visible": true
+          },
           "visible": true
         }
+      ],
+      "width": 786.0278341182664,
+      "height": 138.84994696510677,
+      "text": "双击编辑一小段正文",
+      fill: "#f40",
+      "fontSize": 79.4,
+      "fontWeight": 400,
+      "italic": false,
+      "textDecoration": "under",
+      "lineHeight": {
+        "type": "percent",
+        "value": 1
       },
-      {
-        "fill": {
-          "type": "linear",
-          "color": "rgba(223, 22, 22, 1)",
-          "visible": true,
-          "from": {
-            "x": 0,
-            "y": 0.5,
-            "type": "percent"
-          },
-          "to": {
-            "x": 1,
-            "y": 0.5,
-            "type": "percent"
-          },
-          "stops": [
-            {
-              "offset": 0,
-              "color": "rgb(30, 150, 0)"
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "opacity": 1,
+      "x": 169.48608294086665,
+      "y": 215.57502651744667,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "skewX": 0,
+      "skewY": 0,
+      "editable": true,
+    }),
+    new EffectText({
+      "tag": "EffectText",
+      "textEffects": [
+        {
+          "fill": {
+            "type": "linear",
+            "color": "#000000",
+            "visible": false,
+            "from": {
+              "x": 0,
+              "y": 0.5,
+              "type": "percent"
             },
-            {
-              "offset": 0.51,
-              "color": "rgb(255, 242, 0)"
+            "to": {
+              "x": 1,
+              "y": 0.5,
+              "type": "percent"
             },
-            {
-              "offset": 1,
-              "color": "rgb(243, 41, 53)"
+            "stops": [
+              {
+                "offset": 0,
+                "color": "rgb(248, 54, 0)"
+              },
+              {
+                "offset": 1,
+                "color": "rgb(250, 204, 34)"
+              }
+            ]
+          },
+          "stroke": {
+            "type": "solid",
+            "color": "rgba(41, 212, 138, 1)",
+            "visible": true,
+            "style": {
+              "strokeJoin": "round",
+              "strokeWidth": 9
             }
-          ]
-        },
-        "stroke": {
-          "type": "solid",
-          "color": "rgba(255, 255, 255, 1)",
-          "visible": true,
-          "style": {
-            "strokeWidth": 2,
-            "strokeJoin": "round"
+          },
+          "offset": {
+            "x": 0,
+            "y": 8,
+            "visible": true
           }
         },
-        "offset": {
-          "x": 0,
-          "y": 0,
-          "visible": true
+        {
+          "fill": {
+            "type": "linear",
+            "color": "#000000",
+            "visible": false,
+            "from": {
+              "x": 0,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "to": {
+              "x": 1,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "stops": [
+              {
+                "offset": 0,
+                "color": "rgb(248, 54, 0)"
+              },
+              {
+                "offset": 1,
+                "color": "rgb(250, 204, 34)"
+              }
+            ]
+          },
+          "stroke": {
+            "type": "solid",
+            "color": "rgba(7, 32, 253, 1)",
+            "visible": true,
+            "style": {
+              "strokeJoin": "round",
+              "strokeWidth": 7
+            }
+          },
+          "offset": {
+            "x": 0,
+            "y": 6,
+            "visible": true
+          }
         },
-        "visible": true
-      }
-    ],
-    "width": 786.0278341182664,
-    "height": 138.84994696510677,
-    "text": "双击编辑一小段正文",
-    fill: "#f40",
-    "fontSize": 79.4,
-    "fontWeight": 400,
-    "italic": false,
-    "textDecoration": "under",
-    "lineHeight": {
-      "type": "percent",
-      "value": 1
-    },
-    "textAlign": "center",
-    "verticalAlign": "middle",
-    "opacity": 1,
-    "x": 169.48608294086665,
-    "y": 215.57502651744667,
-    "scaleX": 1,
-    "scaleY": 1,
-    "rotation": 0,
-    "skewX": 0,
-    "skewY": 0,
-    "editable": true,
-  })
-
-  leaferApp.tree.add(et)
-  console.log(et, et.toJSON())
+        {
+          "fill": {
+            "type": "linear",
+            "color": "#000000",
+            "visible": false,
+            "from": {
+              "x": 0,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "to": {
+              "x": 1,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "stops": [
+              {
+                "offset": 0,
+                "color": "rgb(248, 54, 0)"
+              },
+              {
+                "offset": 1,
+                "color": "rgb(250, 204, 34)"
+              }
+            ]
+          },
+          "stroke": {
+            "type": "solid",
+            "color": "rgba(250, 27, 27, 1)",
+            "visible": true,
+            "style": {
+              "strokeJoin": "round",
+              "strokeWidth": 5
+            }
+          },
+          "offset": {
+            "x": 0,
+            "y": 4,
+            "visible": true
+          }
+        },
+        {
+          "fill": {
+            "type": "linear",
+            "color": "#000000",
+            "visible": true,
+            "from": {
+              "x": 0,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "to": {
+              "x": 1,
+              "y": 0.5,
+              "type": "percent"
+            },
+            "stops": [
+              {
+                "offset": 0,
+                "color": "rgb(248, 54, 0)"
+              },
+              {
+                "offset": 1,
+                "color": "rgb(250, 204, 34)"
+              }
+            ]
+          },
+          "stroke": {
+            "type": "solid",
+            "color": "rgba(255, 255, 255, 1)",
+            "visible": true,
+            "style": {
+              dashPattern: [22, 2],
+              "strokeJoin": "round",
+              "strokeWidth": 3
+            }
+          },
+          "offset": {
+            "x": 0,
+            "y": 2,
+            "visible": true
+          }
+        }
+      ],
+      "width": 494.0463372844983,
+      "height": 92.42880484631613,
+      "text": "双击编辑标题",
+      "fontSize": 65.03683211635888,
+      "fontWeight": 400,
+      "italic": false,
+      "lineHeight": {
+        "type": "percent",
+        "value": 1.5
+      },
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "x": 68.45366271550174,
+      "y": 106.47872871902374,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "skewX": 0,
+      "skewY": 0,
+      "editable": true,
+      "shadow": [
+        {
+          "x": 0,
+          "y": 5,
+          "blur": 11,
+          "color": "rgba(255, 255, 255, 1)",
+          "spread": 15
+        }
+      ],
+    })
+  ])
 
   ;(window as any).app = leaferApp
 }
@@ -183,9 +381,13 @@ onMounted(() => {
 function handleExport() {
   leaferApp.tree.export("test.png")
 }
+
+function getTexts(): EffectText[] {
+  return leaferApp.tree.children as EffectText[]
+}
+
 function handleExport2() {
-  const text = leaferApp.tree.children[0]
-  console.log(text.toJSON())
+  console.log(getTexts().map(v => v.toJSON()))
 }
 function handleDebug() {
   Debug.enable = !Debug.enable
@@ -195,27 +397,29 @@ function getRandom(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 function handleChangeOffest() {
-  const text = leaferApp.tree.children[0] as EffectText
-  const max = 200
-  const x = getRandom(-max, max)
-  const y = getRandom(-max, max)
-  text.textEffects = text.textEffects.map(v => {
-    v.offset = {visible: true, x, y}
-    return v
+  getTexts().forEach((text) => {
+    const max = 200
+    const x = getRandom(-max, max)
+    const y = getRandom(-max, max)
+    text.textEffects = text.textEffects.map(v => {
+      v.offset = {visible: true, x, y}
+      return v
+    })
   })
 }
 function handleAddShadow() {
-  const text = leaferApp.tree.children[0] as EffectText
-  text.set({
-    shadow: [
-      {
-        "x": 10,
-        "y": -10,
-        "blur": 63,
-        "color": "rgba(255, 255, 255, 1)",
-        "spread": 41
-      }
-    ]
+  getTexts().forEach((text) => {
+    text.set({
+      shadow: [
+        {
+          "x": 10,
+          "y": -10,
+          "blur": 63,
+          "color": "rgba(255, 255, 255, 1)",
+          "spread": 41
+        }
+      ]
+    })
   })
 }
 </script>
