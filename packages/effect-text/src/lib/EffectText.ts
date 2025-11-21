@@ -88,6 +88,7 @@ export const IGNORE_SYNC_KEYS = [
 
   'shadow',
   'innerShadow',
+  'visible',
 ]
 
 // ==================== Helper Functions ====================
