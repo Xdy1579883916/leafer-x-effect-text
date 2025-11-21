@@ -334,12 +334,12 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
   }
 
   @dataProcessor(EffectTextData)
-  public __: IEffectTextData
+  declare public __: IEffectTextData
 
   @boundsType()
-  textEffects?: ITextEffect[]
+  declare textEffects?: ITextEffect[]
 
-  public __effectTextGroup?: Text[]
+  declare public __effectTextGroup?: Text[]
 
   constructor(data?: TConstructorData) {
     super(data)
