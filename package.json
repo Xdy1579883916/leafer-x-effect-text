@@ -1,7 +1,7 @@
 {
   "name": "leafer-x-effect-text",
   "type": "module",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "packageManager": "pnpm@10.14.0",
   "description": "Leafer 特效文字插件",
   "author": "XiaDeYu <1579883916@qq.com>",
