@@ -669,9 +669,6 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
 
   override __draw(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void {
     console.log('__draw')
-    if (this.textEditing && !options.exporting)
-      return
-
     super.__draw(canvas, options, originCanvas)
 
     this._forEachEffect((text) => {
