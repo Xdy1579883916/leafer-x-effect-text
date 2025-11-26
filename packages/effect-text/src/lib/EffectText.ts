@@ -669,7 +669,10 @@ export class EffectText<TConstructorData = IEffectTextInputData> extends Text<TC
 
   override __draw(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void {
     console.log('__draw')
-    super.__draw(canvas, options, originCanvas)
+    // fix: 期望主文本在编辑时继续渲染
+    // （原则上应该修改 this.textEditing，但是 __draw 频繁调用 不好直接操作，
+    // 于是退而求其次改变 exporting， 从而跳过 super 内部的判断）
+    super.__draw(canvas, { ...options, exporting: true }, originCanvas)
 
     this._forEachEffect((text) => {
       this._updateEffectText(text)

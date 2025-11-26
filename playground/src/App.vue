@@ -524,7 +524,32 @@ function initLeafer() {
       ],
       "data": {},
       "states": {}
-    }
+    },
+    {
+      "tag": "EffectText",
+      "width": 221.13812997777134,
+      "height": 56.37950117841487,
+      "fill": {
+        "type": "solid",
+        "color": "#000"
+      },
+      "text": "普通字-无特效",
+      "fontSize": 22.164377428780533,
+      "fontWeight": 400,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "x": 136.9999999999999,
+      "y": 469.16931359565467,
+      "editable": true,
+      "shadow": [
+        {
+          "x": 4.742660202197613,
+          "y": 4.911168407383739,
+          "blur": 0.8534159386620306,
+          "color": "#0000004e"
+        }
+      ]
+    },
   ])
 
   ;(window as any).app = leaferApp
